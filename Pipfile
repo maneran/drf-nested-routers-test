@@ -8,9 +8,10 @@ verify_ssl = true
 [packages]
 drf-nested-routers = "*"
 django-rest-framework = "*"
-rest-framework = "*"
-rest-framework-extensions = "*"
 django-extensions = "*"
+djangorestframework = "*"
+django = "*"
+psycopg2 = "*"
 
 [requires]
 python_version = "3.7"

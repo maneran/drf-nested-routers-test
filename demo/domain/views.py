@@ -1,14 +1,22 @@
 from django.shortcuts import render
 from .models import Domain, Nameserver
 from rest_framework.viewsets import ModelViewSet
-from .serializers import DomainSerializer, DomainNameserverSerializers, NameserverSerializers
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from .serializers import DomainSerializers, NameserverSerializers
+from django.shortcuts import get_list_or_404, get_object_or_404
 
 # Create your views here.
 class DomainViewSet(ModelViewSet):
-    serializer_class = DomainSerializer
-    queryset = Domain.objects.all()
+	queryset = Domain.objects.all()
+	serializer_class = DomainSerializers
 
-class NameserverViewSet(ModelViewSet):
+class NameserverDomainViewSet(ModelViewSet):
+    queryset = Nameserver.objects.all()
     serializer_class = NameserverSerializers
+
     def get_queryset(self):
-        return Nameserver.objects.filter(domain=self.kwargs['domain_pk'])
+        try:
+            return Nameserver.objects.filter(domain=self.kwargs['domain_pk'])
+        except KeyError:
+            return Nameserver.objects.all()
